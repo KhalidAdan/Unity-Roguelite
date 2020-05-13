@@ -38,10 +38,17 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enemyBody.isVisible)
+        if (
+            enemyBody.isVisible &&
+            PlayerController.instance.gameObject.activeInHierarchy
+            )
         {
             MoveEnemy();
             ShootPlayer();
+        } else
+        {
+            // stop moving enemies on player death
+            rigidBody.velocity = Vector2.zero;
         }
         ControlAnimations();
     }

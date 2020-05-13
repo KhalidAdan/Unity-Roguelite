@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     public float timeBetweenShots;
     private float shotCounter;
 
+    public SpriteRenderer spriteRenderer;
+
     private void Awake()
     {
         //used so other objects can grab the player position
@@ -91,8 +93,12 @@ public class PlayerController : MonoBehaviour
         // left mb = 0, right = 1, middle = 2
         if (Input.GetMouseButtonDown(0))
         {
-            Instantiate(bulletToFire, firePoint.position, firePoint.rotation);
-            shotCounter = timeBetweenShots;
+            shotCounter -= Time.deltaTime;
+            if (shotCounter <= 0)
+            {
+                Instantiate(bulletToFire, firePoint.position, firePoint.rotation);
+                shotCounter = timeBetweenShots;
+            }
         }
         if (Input.GetMouseButton(0))
         {

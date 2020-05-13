@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 7165106567522047371}
-  moveSpeed: 3
+  moveSpeed: 4
   chaseRange: 7
   anim: {fileID: 7165106567522047368}
   hp: 150
