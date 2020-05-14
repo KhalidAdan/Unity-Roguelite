@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public class PlayerHealthController : MonoBehaviour
     private float invincibilityCount;
 
     public SpriteRenderer playerBody;
-    private bool isInvincible;
+    private bool invincible;
 
     private void Awake()
     {
@@ -42,7 +43,6 @@ public class PlayerHealthController : MonoBehaviour
             invincibilityCount -= Time.deltaTime;
             if (invincibilityCount <= 0)
             {
-                // make playercontroller function called removeInvincibility
                 // TODO: make this function flashbetween transparent and full alpha
                 playerBody = PlayerController.instance.spriteRenderer;
                 playerBody.color = new Color(
@@ -57,12 +57,11 @@ public class PlayerHealthController : MonoBehaviour
 
     public void DamagePlayer()
     {
-        if (invincibilityCount <= 0)
+        if (invincibilityCount <= 0 && !invincible)
         {
             currentHealth--;
             invincibilityCount = invincibilityTime;
 
-            // make playercontroller function called setInvinciblity
             // TODO: make this function flashbetween transparent and full alpha
             playerBody = PlayerController.instance.spriteRenderer;
             playerBody.color = new Color(
@@ -79,5 +78,17 @@ public class PlayerHealthController : MonoBehaviour
             }
             SetHealth();
         }
+    }
+
+    public void MakeInvincible(float length)
+    {
+        invincibilityCount = length;
+        playerBody = PlayerController.instance.spriteRenderer;
+        playerBody.color = new Color(
+            playerBody.color.r,
+            playerBody.color.g,
+            playerBody.color.b,
+            0.5f
+        );
     }
 }

@@ -9,6 +9,10 @@ public class PlayerController : MonoBehaviour
 
     // controls the moveSpeed of the character, in Unity 5 seems ok
     public float moveSpeed;
+    // dash speed
+    private float activeMoveSpeed;
+    public float dashSpeed = 12f, dashLength = 0.5f, dashCooldown = 1f, dashInviciblity = 0.5f;
+    private float dashCounter, dashCoolCounter;
     // holds a reference to ther rigidbody assigned to the player object
     public Rigidbody2D rigidBody;
     // holds a reference to the animator
@@ -38,6 +42,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         cam = Camera.main;
+        activeMoveSpeed = moveSpeed;
     }
 
     // Update is called once per frame
@@ -46,7 +51,36 @@ public class PlayerController : MonoBehaviour
         MovePlayer();
         RotateGunArm();
         ShootGun();
+        Dash();
         ControlAnimations();
+    }
+
+    private void Dash()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // stop dash spam by checking if cooldowns are available
+            if (dashCoolCounter <= 0 && dashCoolCounter <= 0)
+            {
+                activeMoveSpeed = dashSpeed;
+                dashCounter = dashLength;
+                anim.SetTrigger("dash");
+                PlayerHealthController.instance.MakeInvincible(dashInviciblity);
+            }
+        }
+        if (dashCounter > 0)
+        {
+            dashCounter -= Time.deltaTime;
+            if (dashCounter <= 0)
+            {
+                activeMoveSpeed = moveSpeed;
+                dashCoolCounter = dashCooldown;
+            }
+        }
+        if (dashCoolCounter > 0)
+        {
+            dashCoolCounter -= Time.deltaTime;
+        }
     }
 
     private void MovePlayer()
@@ -57,7 +91,7 @@ public class PlayerController : MonoBehaviour
         //Normalize horizontal and vertical movement
         moveInput.Normalize();
 
-        rigidBody.velocity = moveInput * moveSpeed;
+        rigidBody.velocity = moveInput * activeMoveSpeed;
     }
 
     private void RotateGunArm()
