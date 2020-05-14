@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // stop dash spam by checking if cooldowns are available
-            if (dashCoolCounter <= 0 && dashCoolCounter <= 0)
+            if (dashCounter <= 0 && dashCoolCounter <= 0)
             {
                 activeMoveSpeed = dashSpeed;
                 dashCounter = dashLength;
