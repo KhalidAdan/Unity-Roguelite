@@ -14,7 +14,9 @@ public class PlayerHealthController : MonoBehaviour
     private float invincibilityCount;
 
     public SpriteRenderer playerBody;
-    private bool invincible;
+
+    public int playerDeathSound = 9;
+    public int playerDamageSound = 11;
 
     private void Awake()
     {
@@ -57,7 +59,7 @@ public class PlayerHealthController : MonoBehaviour
 
     public void DamagePlayer()
     {
-        if (invincibilityCount <= 0 && !invincible)
+        if (invincibilityCount <= 0)
         {
             currentHealth--;
             invincibilityCount = invincibilityTime;
@@ -70,14 +72,30 @@ public class PlayerHealthController : MonoBehaviour
                 playerBody.color.b,
                 0.5f
             );
+            AudioManager.instance.PlaySFX(playerDamageSound);
 
             if (currentHealth <= 0)
             {
                 PlayerController.instance.gameObject.SetActive(false);
                 UIController.instance.deathScreen.gameObject.SetActive(true);
+                AudioManager.instance.PlaySFX(playerDeathSound);
+                AudioManager.instance.PlayGameOver();
             }
             SetHealth();
         }
+    }
+
+    public void HealPlayer(int healAmount)
+    {
+        if (currentHealth < maxHealth)
+        {
+            currentHealth += healAmount;
+        } else
+        {
+            // TODO: implement a bool so you dont pickup health when your are full
+            currentHealth = maxHealth;
+        }
+        SetHealth();
     }
 
     public void MakeInvincible(float length)

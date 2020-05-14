@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
     public float timeBetweenShots;
     private float shotCounter;
 
+    public int dashSound = 8;
+    public int playerGunSound = 12;
+
     public SpriteRenderer spriteRenderer;
 
     private void Awake()
@@ -69,6 +72,7 @@ public class PlayerController : MonoBehaviour
                 activeMoveSpeed = dashSpeed;
                 dashCounter = dashLength;
                 anim.SetTrigger("dash");
+                AudioManager.instance.PlaySFX(dashSound);
                 PlayerHealthController.instance.MakeInvincible(dashInviciblity);
             }
         }
@@ -135,6 +139,7 @@ public class PlayerController : MonoBehaviour
             if (shotCounter <= 0)
             {
                 Instantiate(bulletToFire, firePoint.position, firePoint.rotation);
+                AudioManager.instance.PlaySFX(playerGunSound);
                 shotCounter = timeBetweenShots;
             }
         }
@@ -144,6 +149,7 @@ public class PlayerController : MonoBehaviour
             if (shotCounter <= 0)
             {
                 Instantiate(bulletToFire, firePoint.position, firePoint.rotation);
+                AudioManager.instance.PlaySFX(playerGunSound);
                 shotCounter = timeBetweenShots;
             }
         }

@@ -29,6 +29,10 @@ public class EnemyController : MonoBehaviour
 
     public float shootingRange;
 
+    public int enemyDamagedSound = 2;
+    public int enemyDeathSound = 1;
+    public int enemyGunSound = 13;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +69,7 @@ public class EnemyController : MonoBehaviour
             {
                 fireCounter = fireRate;
                 Instantiate(bullet, firePoint.position, firePoint.rotation);
+                AudioManager.instance.PlaySFX(enemyGunSound);
             }
         }
     }
@@ -100,6 +105,7 @@ public class EnemyController : MonoBehaviour
     {
         hp -= bulletDamage;
         Instantiate(hitEffect, transform.position, transform.rotation);
+        AudioManager.instance.PlaySFX(enemyDamagedSound);
         if (hp <= 0)
         {
             // destroys THIS game object
@@ -114,6 +120,7 @@ public class EnemyController : MonoBehaviour
                 transform.position, 
                 Quaternion.Euler(0f, 0f, rotation * 90f)
             );
+            AudioManager.instance.PlaySFX(enemyDeathSound);
 
         }
     }
