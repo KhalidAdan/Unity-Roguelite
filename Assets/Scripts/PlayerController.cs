@@ -9,10 +9,14 @@ public class PlayerController : MonoBehaviour
 
     // controls the moveSpeed of the character, in Unity 5 seems ok
     public float moveSpeed;
-    // dash speed
+    // dash controls
     private float activeMoveSpeed;
     public float dashSpeed = 12f, dashLength = 0.5f, dashCooldown = 1f, dashInviciblity = 0.5f;
-    private float dashCounter, dashCoolCounter;
+    private float dashCoolCounter;
+
+    [HideInInspector]
+    public float dashCounter;
+
     // holds a reference to ther rigidbody assigned to the player object
     public Rigidbody2D rigidBody;
     // holds a reference to the animator
