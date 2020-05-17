@@ -10,6 +10,8 @@ public class LevelManager : MonoBehaviour
     public float delayLoad = 4f;
     public string nextLevel;
 
+    public bool isPaused = false;
+
     private void Awake()
     {
         instance = this;
@@ -17,13 +19,17 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        // always restart time when a level starts, edge case from the pausing and selecting main menu
+        Time.timeScale = 1f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            TogglePause();
+            Debug.Log("Paused!");
+        }
     }
 
     public IEnumerator LevelEnd()
@@ -34,5 +40,23 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(delayLoad);
 
         SceneManager.LoadScene(nextLevel);
+    }
+
+    public void TogglePause()
+    {
+        if (isPaused)
+        {
+            // unpause
+            UIController.instance.pauseMenu.SetActive(false);
+            isPaused = false;
+            Time.timeScale = 1f;
+        }
+        else
+        {
+            // pause
+            UIController.instance.pauseMenu.SetActive(true);
+            isPaused = true;
+            Time.timeScale = 0f;
+        }
     }
 }
