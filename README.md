@@ -18,3 +18,11 @@ will serve as the repo for all my learning up to date.
 ## Next Steps
 
 * *Level Generation* !!!
+* More enemy types
+* Shops + Money
+* Weapons system
+* Level Tracking
+* Multiple Characters
+* Multiple Playable Characters
+* Abilities
+* Bosses
