@@ -39,6 +39,10 @@ public class PlayerController : MonoBehaviour
 
     public SpriteRenderer spriteRenderer;
 
+    // stop player from moving when level win
+    [HideInInspector]
+    public bool canMove = true;
+
     private void Awake()
     {
         //used so other objects can grab the player position
@@ -55,11 +59,18 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MovePlayer();
-        RotateGunArm();
-        ShootGun();
-        Dash();
-        ControlAnimations();
+        if (canMove)
+        {
+            MovePlayer();
+            RotateGunArm();
+            ShootGun();
+            Dash();
+            ControlAnimations();
+        } else
+        {
+            rigidBody.velocity = Vector2.zero;
+            anim.SetBool("isMoving", false);
+        }
     }
 
     private void Dash()
