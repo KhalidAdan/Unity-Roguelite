@@ -22,7 +22,6 @@ will serve as the repo for all my learning up to date.
 * Shops + Money
 * Weapons system
 * Level Tracking
-* Multiple Characters
 * Multiple Playable Characters
 * Abilities
 * Bosses
