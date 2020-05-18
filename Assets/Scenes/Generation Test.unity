@@ -269,6 +269,37 @@ MonoBehaviour:
   endColor: {r: 0.7075472, g: 0.13917981, b: 0, a: 1}
   distanceToEnd: 10
   generatorPoint: {fileID: 852792410}
+  rooms:
+    singleUp: {fileID: 1626902493668422410, guid: a9ba182f97f987742ba465d27774c335,
+      type: 3}
+    singleRight: {fileID: 7205179400131699209, guid: 6c5cedf7d528162479f80c51258ce109,
+      type: 3}
+    singleDown: {fileID: 9160036158641284901, guid: d72808565d5f3b048ab3d1f26ce0bcdb,
+      type: 3}
+    singleLeft: {fileID: 2236567800757008139, guid: fd0c627b5ef560d42a6dc964aa35d182,
+      type: 3}
+    doubleUpDown: {fileID: 467479119214947871, guid: 11b8fcef25b669146a6ac9af0fd818ad,
+      type: 3}
+    doubleLeftRight: {fileID: 262504791545139239, guid: 478d4358770e4ff4c9554caa263f1450,
+      type: 3}
+    doubleUpRight: {fileID: 780104660818973137, guid: 5d7a90ceeba61934eb0aa0991ba11ba1,
+      type: 3}
+    doubleRightDown: {fileID: 7323117533354386608, guid: 661c46ae246df5845a765e59f30b8ad5,
+      type: 3}
+    doubleDownLeft: {fileID: 943157431578056029, guid: 2b40d2e95fc381d4a80c826fec00f25d,
+      type: 3}
+    doubleLeftUp: {fileID: 1139930873443606019, guid: c427269ee64e1a64aa0b970647342fd7,
+      type: 3}
+    tripleUpRightDown: {fileID: 8779347692676928209, guid: fbd649749340d334a94908ed86d47e68,
+      type: 3}
+    tripleRightDownLeft: {fileID: 177475297080355576, guid: c181097d750ac264aa9efd711b2e1da0,
+      type: 3}
+    tripleDownLeftUp: {fileID: 6895214949032386225, guid: 5dd3faf9dd8845f4b8bebef8e626c64f,
+      type: 3}
+    tripleLeftUpRight: {fileID: 3741437687006417289, guid: b6dc5f1c37955ed42a936ff6742b7c3b,
+      type: 3}
+    fourDoors: {fileID: 7805278755482344470, guid: 9d51572a6979d6e46801908868b19b12,
+      type: 3}
   selectedDirection: 0
   xOffset: 18
   yOffset: 10
