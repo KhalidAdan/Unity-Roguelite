@@ -19,6 +19,11 @@ public class LevelGenerator : MonoBehaviour
     public RoomPrefabs rooms;
     private List<GameObject> generatedOutlines = new List<GameObject>();
 
+    public RoomCenter centerStart;
+    public RoomCenter centerEnd;
+
+    public RoomCenter[] potentialCenters;
+
     public enum Direction
     {
         up,
@@ -70,17 +75,42 @@ public class LevelGenerator : MonoBehaviour
             CreateRoomOutline(room.transform.position);
         }
         CreateRoomOutline(endRoom.transform.position);
+
+        foreach (GameObject outline in generatedOutlines)
+        {
+            bool generateCenter = true;
+            // check for start position
+            if (outline.transform.position == Vector3.zero)
+            {
+                Instantiate(centerStart, outline.transform.position, transform.rotation).room = outline.GetComponent<Room>();
+                generateCenter = false;
+            }
+            if (outline.transform.position == endRoom.transform.position)
+            {
+                Instantiate(centerEnd, outline.transform.position, transform.rotation).room = outline.GetComponent<Room>();
+                generateCenter = false;
+            }
+
+            if (generateCenter)
+            {
+                int centerSelect = Random.Range(0, potentialCenters.Length);
+                Instantiate(potentialCenters[centerSelect], outline.transform.position, transform.rotation).room = outline.GetComponent<Room>();
+            }
+       
+            
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+#if UNITY_EDITOR
         if (Input.GetKey(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+#endif
     }
-
     public void MoveGenerationPoint()
     {
         switch (selectedDirection)
