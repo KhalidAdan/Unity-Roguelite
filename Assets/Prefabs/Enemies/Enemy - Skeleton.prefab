@@ -209,7 +209,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 7165106567522047371}
   moveSpeed: 4
+  shouldChasePlayer: 1
   chaseRange: 7
+  shouldRunAway: 0
+  runAwayRange: 0
   anim: {fileID: 7165106567522047368}
   hp: 150
   deathSplatters:

@@ -8,18 +8,30 @@ public class EnemyController : MonoBehaviour
     public Rigidbody2D rigidBody;
     public float moveSpeed;
 
+    [Header("ChasePlayer")]
+    public bool shouldChasePlayer;
     public float chaseRange;
     private Vector3 moveDirection;
-    private Vector3 playerPosition;
 
-    public Animator anim;
+    [Header("Run Away")]
+    public bool shouldRunAway;
+    public float runAwayRange;
 
-    public int hp = 150;
+    [Header("Wandering")]
+    public bool shouldWander;
+    public float wanderLength;
+    public float pauseLength;
+    private float wanderCounter;
+    private float pauseCounter;
+    private Vector3 wanderDirection;
 
-    public GameObject[] deathSplatters;
+    [Header("Patrolling")]
+    public bool shouldPatrol;
+    public Transform[] patrolPoints;
+    private int currentPatrolPoint;
 
-    public GameObject hitEffect;
 
+    [Header("Shooting")]
     public bool shouldShoot;
     public GameObject bullet;
     public Transform firePoint;
@@ -27,8 +39,14 @@ public class EnemyController : MonoBehaviour
     private float fireCounter;
     public SpriteRenderer enemyBody;
 
-    public float shootingRange;
 
+    [Header("Variables")]
+    private Vector3 playerPosition;
+    public Animator anim;
+    public int hp = 150;
+    public GameObject[] deathSplatters;
+    public GameObject hitEffect;
+    public float shootingRange;
     public int enemyDamagedSound = 2;
     public int enemyDeathSound = 1;
     public int enemyGunSound = 13;
@@ -36,7 +54,10 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        if (shouldWander)
+        {
+            pauseCounter = Random.Range(pauseLength * 0.75f, pauseLength * 1.25f);
+        }
     }
 
     // Update is called once per frame
@@ -76,14 +97,64 @@ public class EnemyController : MonoBehaviour
 
     private void MoveEnemy()
     {
+        moveDirection = Vector3.zero;
+
         playerPosition = PlayerController.instance.transform.position;
-        if ( Vector3.Distance(transform.position, playerPosition) < chaseRange )
+        if ( Vector3.Distance(transform.position, playerPosition) < chaseRange && shouldChasePlayer)
         {
             moveDirection = playerPosition - transform.position;
         } else
         {
-            moveDirection = Vector3.zero;
+
+            if (shouldWander)
+            {
+                if (wanderCounter > 0)
+                {
+                    wanderCounter -= Time.deltaTime;
+                    // move the enemy
+                    moveDirection = wanderDirection;
+                    if (wanderCounter <= 0)
+                    {
+                        pauseCounter = Random.Range(pauseLength * 0.75f, pauseLength * 1.25f);
+                    }
+                }
+                if (pauseCounter > 0)
+                {
+                    pauseCounter -= Time.deltaTime;
+                    if (pauseCounter <= 0)
+                    {
+                        wanderCounter = Random.Range(wanderLength * 0.75f, wanderLength * 1.25f);
+
+                        wanderDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
+                    }
+                }
+            }
+
+            if (shouldPatrol)
+            {
+                moveDirection = patrolPoints[currentPatrolPoint].position - transform.position;
+
+                if (Vector3.Distance(transform.position, patrolPoints[currentPatrolPoint].position) < 0.2f)
+                {
+                    currentPatrolPoint++;
+                    if (currentPatrolPoint >= patrolPoints.Length)
+                    {
+                        currentPatrolPoint = 0;
+                    }
+                }
+            }
         }
+
+        if (shouldRunAway && Vector3.Distance(transform.position, playerPosition)< runAwayRange)
+        {
+            moveDirection = transform.position - playerPosition;
+        }
+
+                
+        /*else
+        {
+            moveDirection = Vector3.zero;
+        }*/
         moveDirection.Normalize();
         rigidBody.velocity = moveDirection * moveSpeed;
     }
